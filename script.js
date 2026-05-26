@@ -57,6 +57,12 @@ function buildCaesarWheel() {
     itxt.setAttribute('font-family', 'VT323');
     itxt.setAttribute('font-size', '20');
     itxt.setAttribute('fill', 'var(--amber)');
+    // The parent group rotates; we counter-rotate each letter around its own
+    // centre so it always stays upright. CSS transform-origin uses the letter's
+    // own x/y in SVG units (via transform-box: view-box, set in stylesheet).
+    itxt.style.transformOrigin = `${ix}px ${iy}px`;
+    itxt.style.transformBox = 'view-box';
+    itxt.style.transition = 'transform 0.5s cubic-bezier(.22,1,.36,1)';
     itxt.textContent = ALPHABET[i];
     inner.appendChild(itxt);
   }
@@ -65,9 +71,21 @@ function buildCaesarWheel() {
 function rotateCaesarWheel(shift) {
   const inner = document.getElementById('inner-ring');
   if (!inner) return;
-  // Each letter slot is 360/26 degrees. Negative because we rotate the inner ring backwards so the letter under A on outer is A+shift.
+  // Each letter slot is 360/26 degrees. Negative because we rotate the inner ring
+  // backwards so the letter under A on the outer ring is A+shift.
+  // We set the CSS `transform` property (not the SVG `transform` attribute) so
+  // the CSS `transform-origin` + `transform-box: view-box` apply correctly and
+  // the rotation pivots around the SVG centre (0, 0).
   const deg = -(shift * 360 / 26);
-  inner.setAttribute('transform', `rotate(${deg})`);
+  inner.style.transform = `rotate(${deg}deg)`;
+  // Counter-rotate each individual letter around its own centre so the glyphs
+  // remain upright while the ring spins.
+  const letters = document.getElementById('inner-letters');
+  if (letters) {
+    for (const letter of letters.children) {
+      letter.style.transform = `rotate(${-deg}deg)`;
+    }
+  }
 }
 
 function initCaesarPage() {

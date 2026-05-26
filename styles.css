@@ -415,7 +415,11 @@ button:disabled {
 }
 .wheel .inner {
   transition: transform 0.5s cubic-bezier(.22,1,.36,1);
-  transform-origin: center;
+  /* The SVG viewBox is -160 -160 320 320, so the SVG origin (0,0) is the centre.
+     We set transform-origin to 0 0 (SVG units) so the rotation pivots around the
+     centre of the wheel rather than around the CSS bounding box of the <g>. */
+  transform-origin: 0px 0px;
+  transform-box: view-box;
 }
 
 /* ============ ENIGMA ROTORS ============ */
