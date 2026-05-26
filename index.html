@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRYPTONAUTS — Learn Cryptography</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">CRYPTONAUTS<span class="blink"></span></a>
+  <div class="nav-links">
+    <a href="index.html" class="active">HOME</a>
+    <a href="caesar.html">CAESAR</a>
+    <a href="enigma.html">ENIGMA</a>
+    <a href="morse.html">MORSE</a>
+    <a href="cicada.html">CICADA 3301</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="boot-line" style="animation-delay: 0s">
+    <p style="color: var(--phosphor-dim); font-size: 13px;">› SYSTEM BOOT — CRYPTONAUTS v1.0 — TERMINAL ACTIVE</p>
+  </div>
+  <div class="boot-line" style="animation-delay: 0.3s">
+    <p style="color: var(--phosphor-dim); font-size: 13px;">› LOADING SECRET KNOWLEDGE...</p>
+  </div>
+  <div class="boot-line" style="animation-delay: 0.6s">
+    <h1 class="page-title">SECRETS, SOLVED.</h1>
+    <p class="page-subtitle">A HANDS-ON INTRODUCTION TO CRYPTOGRAPHY FOR CURIOUS MINDS</p>
+  </div>
+
+  <div class="terminal boot-line" style="animation-delay: 0.9s">
+    <span class="terminal-label">README.TXT</span>
+    <div class="terminal-body">
+      <h2>What is cryptography?</h2>
+      <p><strong>Cryptography</strong> is the art and science of writing messages that only certain people can read. The word comes from two ancient Greek words: <em>kryptós</em> (hidden) and <em>graphein</em> (to write). So cryptography literally means "hidden writing."</p>
+
+      <p>Imagine you wanted to pass a note to your best friend in class, but you were worried the teacher might intercept it. You might agree on a secret code beforehand — say, shifting every letter forward by three. So "HELLO" becomes "KHOOR". The teacher sees gibberish; your friend reads your message. Congratulations: you just invented the <strong>Caesar cipher</strong>, used by Julius Caesar over 2,000 years ago.</p>
+
+      <h3>Two key ideas</h3>
+      <p>Every cipher has two operations:</p>
+      <ul style="margin-left: 24px; color: #cce8cc;">
+        <li><strong>Encryption</strong> — turning a normal message (the <em>plaintext</em>) into a secret one (the <em>ciphertext</em>).</li>
+        <li><strong>Decryption</strong> — turning the ciphertext back into plaintext.</li>
+      </ul>
+      <p style="margin-top: 12px;">To do either, you need a <strong>key</strong> — a piece of secret information shared between sender and receiver. In Caesar's case, the key is the number of letters you shift by.</p>
+
+      <h3>Why does it matter?</h3>
+      <p>Every time you log in to your email, send a message on WhatsApp, or buy something online, cryptography is silently protecting you. Banks, hospitals, governments, and even your favourite games all rely on it. Without cryptography, the modern internet would be impossible.</p>
+
+      <div class="info-box">
+        <div class="info-label">DID YOU KNOW?</div>
+        The padlock icon you see in your browser's address bar means your connection is encrypted using cryptography descended from these very same ideas — just much, much more sophisticated.
+      </div>
+    </div>
+  </div>
+
+  <h2 style="margin-top: 48px;">CHOOSE YOUR MISSION</h2>
+  <p style="color: #aac8aa;">Four interactive lessons. Click any card to begin.</p>
+
+  <div class="lesson-grid">
+    <a href="caesar.html" class="lesson-card">
+      <div class="num">// MISSION 01</div>
+      <h3>Caesar Cipher</h3>
+      <p>The oldest trick in the book. Shift letters, share secrets, and spin the decoder wheel that emperors and generals once used.</p>
+    </a>
+
+    <a href="enigma.html" class="lesson-card">
+      <div class="num">// MISSION 02</div>
+      <h3>Enigma Machine</h3>
+      <p>The legendary WWII codebreaker. Watch the rotors turn as each letter you type lights up a different one on the lampboard.</p>
+    </a>
+
+    <a href="morse.html" class="lesson-card">
+      <div class="num">// MISSION 03</div>
+      <h3>Morse Code</h3>
+      <p>Not encryption exactly, but a code that crossed oceans before radio. Type a message and hear it flash and beep in dots and dashes.</p>
+    </a>
+
+    <a href="cicada.html" class="lesson-card glitch">
+      <div class="num">// MISSION 04</div>
+      <h3>Cicada 3301</h3>
+      <p>The greatest internet mystery never solved. A trail of cryptographic puzzles posted by an unknown group — and what we learned chasing it.</p>
+    </a>
+  </div>
+
+  <div class="terminal" style="margin-top: 48px;">
+    <span class="terminal-label">FOR EDUCATORS</span>
+    <div class="terminal-body">
+      <h3>How to use this site</h3>
+      <p>Each lesson page has three parts: a short story about <em>why</em> the cipher exists, a clear explanation of <em>how</em> it works, and an interactive tool you can play with. There's no "right way" — try encrypting your name, your school's name, a joke. Try breaking codes your friends make. The more you experiment, the more you'll understand.</p>
+      <p>Suggested order: Caesar → Morse → Enigma → Cicada 3301. Each one builds on ideas from the last.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  CRYPTONAUTS // BUILT FOR CURIOUS LEARNERS // NO COOKIES, NO TRACKING, JUST CIPHERS
+</footer>
+
+</body>
+</html>

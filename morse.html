@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morse Code — CRYPTONAUTS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">CRYPTONAUTS<span class="blink"></span></a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="caesar.html">CAESAR</a>
+    <a href="enigma.html">ENIGMA</a>
+    <a href="morse.html" class="active">MORSE</a>
+    <a href="cicada.html">CICADA 3301</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <h1 class="page-title">MORSE CODE</h1>
+  <p class="page-subtitle">MISSION 03 // DITS, DAHS, AND THE FIRST INTERNET</p>
+
+  <div class="terminal">
+    <span class="terminal-label">BRIEFING.TXT</span>
+    <div class="terminal-body">
+      <h2>The story</h2>
+      <p>In the 1830s, an American painter named <strong>Samuel Morse</strong> had a terrible experience. He was away from home painting a portrait when a letter arrived telling him his wife was ill. By the time he hurried back, she had already died and been buried. Devastated, he became obsessed with finding a way to send messages instantly across great distances.</p>
+      <p>Working with Alfred Vail, Morse invented the <strong>telegraph</strong>: an electrical wire that could carry pulses from one place to another. But how do you send words down a wire that can only carry electricity on or off? You invent a <strong>code</strong>.</p>
+      <p>Morse code represents every letter as a unique pattern of <strong>dots</strong> (short pulses, called "dits") and <strong>dashes</strong> (long pulses, called "dahs"). The letter E, the most common letter in English, is just a single dot — the shortest possible signal, so common words could be sent quickly. The first message ever sent by telegraph, in 1844, was: "What hath God wrought?"</p>
+
+      <h3>Is Morse code cryptography?</h3>
+      <p>Strictly speaking, no — Morse code isn't secret. Anyone who knows the code can read it. But it's a fascinating cousin of cryptography because it teaches the same fundamental idea: <strong>any message can be represented as a pattern of symbols, and any pattern can be decoded back into the original</strong>. That idea — that letters can be turned into numbers, and numbers into letters — sits at the heart of every cipher and every computer in the world.</p>
+
+      <div class="info-box">
+        <div class="info-label">SOS — THE MOST FAMOUS MORSE SIGNAL</div>
+        SOS in Morse is · · · — — — · · · . It was chosen not because it stands for anything ("Save Our Souls" is folklore) but because the pattern is short, distinctive, and impossible to confuse with anything else. It's still recognised as a distress signal worldwide.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">TELEGRAPH.EXE</span>
+    <div class="terminal-body">
+      <h2>Try it yourself</h2>
+      <p>Type any message and watch it convert to Morse code instantly. Press PLAY to hear it transmitted with sound and a flashing lamp — just like a real telegraph operator would have heard it 180 years ago.</p>
+
+      <label for="morse-input">YOUR MESSAGE</label>
+      <textarea id="morse-input" placeholder="Type any message...">SOS HELLO</textarea>
+
+      <button id="morse-text-to-morse-btn" class="amber">TEXT → MORSE</button>
+      <button id="morse-morse-to-text-btn">MORSE → TEXT</button>
+      <button id="morse-play-btn">▶ PLAY</button>
+      <button id="morse-stop-btn">■ STOP</button>
+
+      <label>MORSE OUTPUT</label>
+      <div id="morse-output" class="morse-output"></div>
+
+      <div class="lamp-big" id="morse-lamp"></div>
+      <p style="text-align: center; color: var(--phosphor-dim); font-size: 12px; letter-spacing: 2px;">TRANSMISSION LAMP</p>
+
+      <label>SPEED (WPM): <span id="wpm-val" style="color: var(--amber); font-family: var(--display); font-size: 22px;">15</span></label>
+      <input type="range" id="morse-wpm" min="5" max="30" value="15">
+
+      <div class="info-box" style="margin-top: 24px;">
+        <div class="info-label">REVERSE MODE</div>
+        Paste Morse code (using dots, dashes, spaces between letters, and " / " between words) into the box, then click MORSE → TEXT to decode it. Try this one: <br><span style="color: var(--amber); font-family: var(--display); font-size: 20px;">-.-. .-. -.-- .--. - --- / .. ... / -.-. --- --- .-..</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">REFERENCE.TXT</span>
+    <div class="terminal-body">
+      <h3>Morse code chart</h3>
+      <div class="three-col" id="morse-chart" style="font-family: var(--terminal-mono); font-size: 14px;"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>CRYPTONAUTS // MISSION 03 — MORSE CODE</footer>
+
+<script src="script.js"></script>
+<script>
+  initMorsePage();
+</script>
+</body>
+</html>

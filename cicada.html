@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cicada 3301 — CRYPTONAUTS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">CRYPTONAUTS<span class="blink"></span></a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="caesar.html">CAESAR</a>
+    <a href="enigma.html">ENIGMA</a>
+    <a href="morse.html">MORSE</a>
+    <a href="cicada.html" class="active">CICADA 3301</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <h1 class="page-title glitch">CICADA 3301</h1>
+  <p class="page-subtitle">MISSION 04 // THE INTERNET'S GREATEST UNSOLVED MYSTERY</p>
+
+  <div class="cicada-banner">
+    <h2>"Hello. We are looking for highly intelligent individuals. To find them, we have devised a test."</h2>
+    <p>— posted to 4chan, 4 January 2012, signed: 3301</p>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">FILE_01.TXT</span>
+    <div class="terminal-body">
+      <h2>The story</h2>
+      <p>On the fourth of January 2012, an anonymous post appeared on a corner of the internet known for strange and chaotic content. It was a plain white image with a paragraph of black text. The message claimed there was a "message hidden in this image" and invited those who found it to follow a trail.</p>
+      <p>Most people scrolled past. A few didn't. The ones who looked closer used a technique called <strong>steganography</strong> — hiding information inside something that looks ordinary, like an image or a sound file. Embedded inside that white square, they found a clue. The clue led to another puzzle. That puzzle led to a third. And a fourth. And a fifth.</p>
+      <p>The puzzles became impossibly elaborate. They involved:</p>
+      <ul style="margin-left: 24px; color: #cce8cc;">
+        <li>Ancient codes (the <em>Caesar cipher</em> and <em>book ciphers</em>)</li>
+        <li>Hidden data inside images and audio files</li>
+        <li>References to Mayan numerals, William Blake's poetry, and the works of Carl Jung</li>
+        <li>Phone numbers in Texas that, when called, played coded messages</li>
+        <li>Physical posters mysteriously appearing on telephone poles in 14 cities across the world — from Seattle to Warsaw to Seoul</li>
+        <li>Onion-routed servers on the deep web</li>
+      </ul>
+      <p>The puzzles were signed only with a symbol: a cicada, and the number <strong>3301</strong>.</p>
+    </div>
+  </div>
+
+  <h2>Timeline of a mystery</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">04 JAN 2012</div>
+      <h4>The first message</h4>
+      <p>A plain image with hidden text appears online. Whoever wrote it claimed to be searching for "intelligent individuals." Solvers from around the world begin collaborating.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">FEB 2012</div>
+      <h4>Posters appear worldwide</h4>
+      <p>Photographs are shared of physical posters bearing the Cicada symbol — taped to lampposts and walls in Warsaw, Seoul, Paris, Sydney, Seattle, Miami, and other cities. How an anonymous group coordinated this remains unknown.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">MAR 2012</div>
+      <h4>The trail goes silent</h4>
+      <p>A handful of solvers reportedly reached a final stage and were contacted privately. None has ever publicly described what was on the other side. The puzzle ended with a message: "We have now found the individuals we sought."</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">JAN 2013</div>
+      <h4>The second round</h4>
+      <p>Exactly one year later — to the day — a new puzzle appears. Same symbol. Same difficulty. A new generation of solvers takes up the trail.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">JAN 2014</div>
+      <h4>The third round</h4>
+      <p>And again. The third puzzle is the most complex yet, involving a 56-page "Liber Primus" — a book of cryptographic riddles still being analysed today.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2014 — PRESENT</div>
+      <h4>The mystery endures</h4>
+      <p>No fourth annual puzzle has appeared. The identity of Cicada 3301 has never been confirmed. Theories range from an intelligence agency recruiting codebreakers, to a cypherpunk collective, to a billionaire's private game. Most of the Liber Primus is still unsolved.</p>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">SOLVE_THIS.TXT</span>
+    <div class="terminal-body">
+      <h2>Try a Cicada-style puzzle</h2>
+      <p>One of the very first Cicada clues used a simple Caesar cipher. The original message was <strong>"Tiberius Claudius Caesar says lxxat that which redacts the verity of the assignment."</strong> — but with key letters shifted. Real Cicada puzzles used much harder math, but they always started with something a beginner could solve.</p>
+
+      <p>Here's a chain in the same spirit. Solve each step to unlock the next.</p>
+
+      <div class="puzzle-box">
+        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 1 OF 3 — CAESAR SHIFT 7</div>
+        <div class="clue">AOL HUZDLY PZ OPKKLU PU JPJHKHZ</div>
+        <p style="color: #aac8aa; font-size: 13px;">Decrypt this with a Caesar shift of 7. What does it say?</p>
+        <input type="text" id="puzzle-step-1" placeholder="Type your answer...">
+        <button onclick="checkPuzzle(1)">SUBMIT</button>
+        <div id="puzzle-1-feedback" style="margin-top: 10px;"></div>
+      </div>
+
+      <div class="puzzle-box" id="puzzle-box-2" style="display: none;">
+        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 2 OF 3 — MORSE CODE</div>
+        <div class="clue" style="font-family: var(--display); letter-spacing: 4px;">- .... . / -.- . -.-- / .. ... / ... .. -..- - . . -.</div>
+        <p style="color: #aac8aa; font-size: 13px;">Decode this Morse. The answer is a phrase — what's the last word?</p>
+        <input type="text" id="puzzle-step-2" placeholder="Type the last word...">
+        <button onclick="checkPuzzle(2)">SUBMIT</button>
+        <div id="puzzle-2-feedback" style="margin-top: 10px;"></div>
+      </div>
+
+      <div class="puzzle-box" id="puzzle-box-3" style="display: none;">
+        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 3 OF 3 — FINAL</div>
+        <p style="color: #aac8aa;">Multiply the Caesar shift from step 1 by the number that was the answer to step 2 (the last word, as a number).</p>
+        <input type="text" id="puzzle-step-3" placeholder="Type a number...">
+        <button onclick="checkPuzzle(3)">SUBMIT</button>
+        <div id="puzzle-3-feedback" style="margin-top: 10px;"></div>
+      </div>
+
+      <div class="puzzle-box" id="puzzle-final" style="display: none; border-color: var(--phosphor);">
+        <div style="color: var(--phosphor); font-size: 13px; letter-spacing: 2px;">// TRANSMISSION COMPLETE //</div>
+        <div class="clue" style="color: var(--phosphor);">WELCOME, CRYPTONAUT.<br>YOU FOUND THE END OF OUR TRAIL.</div>
+        <p style="color: #aac8aa;">You've just experienced — in miniature — what thousands of solvers around the world spent months doing. Real cryptography is exactly this: patience, pattern-recognition, collaboration, and curiosity.</p>
+        <p style="color: var(--amber);">3301</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">FINAL_THOUGHTS.TXT</span>
+    <div class="terminal-body">
+      <h2>What we learned</h2>
+      <p>We may never know who Cicada 3301 was. But the puzzle taught the world a few important lessons:</p>
+      <p>First, that cryptography is not just for governments and spies — it's a creative, playful, intellectual pursuit that brought thousands of strangers together across the internet.</p>
+      <p>Second, that the strongest cryptography in the world is open and well-understood. Cicada used techniques anyone could look up. The challenge wasn't that the math was secret — it was that you had to think clearly and carefully.</p>
+      <p>Third — and this is the part that matters most for you — that mysteries this big and this beautiful are out there for the solving, and the only thing standing between you and the next one is the patience to learn how the puzzles work.</p>
+      <p style="color: var(--amber); font-family: var(--display); font-size: 24px; text-align: center; margin-top: 32px;">⌐□_□ → ◓_◓</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>CRYPTONAUTS // MISSION 04 — CICADA 3301</footer>
+
+<script src="script.js"></script>
+<script>
+  initCicadaPage();
+</script>
+</body>
+</html>

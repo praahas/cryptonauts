@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enigma — CRYPTONAUTS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">CRYPTONAUTS<span class="blink"></span></a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="caesar.html">CAESAR</a>
+    <a href="enigma.html" class="active">ENIGMA</a>
+    <a href="morse.html">MORSE</a>
+    <a href="cicada.html">CICADA 3301</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <h1 class="page-title">ENIGMA MACHINE</h1>
+  <p class="page-subtitle">MISSION 02 // THE MACHINE THAT CHANGED A WAR</p>
+
+  <div class="terminal">
+    <span class="terminal-label">BRIEFING.TXT</span>
+    <div class="terminal-body">
+      <h2>The story</h2>
+      <p>By the 1920s, people realised the Caesar cipher and its cousins were far too easy to crack. Computers didn't exist yet, but cryptographers wanted something so complex that breaking it by hand would take a human lifetime — even longer.</p>
+      <p>A German engineer named <strong>Arthur Scherbius</strong> built such a thing. He called it <em>Enigma</em>. It looked like a typewriter with light bulbs above each key. Inside were three or four spinning wheels called <strong>rotors</strong>, each one wired so that pressing a key would send an electrical signal through them in a twisting, mind-bending path, finally lighting up a different letter on the lampboard. After every keystroke, the rotors moved — so even if you typed AAAAA, you'd get five different letters.</p>
+      <p>Germany used Enigma to encrypt military orders during World War II. They believed it was unbreakable. The number of possible settings was around <strong>158 million million million</strong>.</p>
+
+      <h3>How it was broken</h3>
+      <p>It wasn't unbreakable. In Poland, mathematicians worked out some of its secrets in the 1930s. They shared their findings with British codebreakers at a country house called <strong>Bletchley Park</strong>, where a brilliant young mathematician named <strong>Alan Turing</strong> designed an electromechanical machine called the <em>Bombe</em> to test thousands of Enigma settings at once. Reading Germany's secret messages helped the Allies win the war — and historians believe it shortened the conflict by two years and saved millions of lives.</p>
+      <p>Turing's work also planted the seeds for the first computers. The phone in your pocket is a distant grandchild of his Bombe.</p>
+
+      <div class="info-box">
+        <div class="info-label">KEY IDEA</div>
+        Enigma's secret weapon was that its substitution changed with every single keystroke. This made it dramatically harder than Caesar — but ultimately, every code has patterns, and patterns can be found.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">ENIGMA-SIM.EXE</span>
+    <div class="terminal-body">
+      <h2>Try it yourself</h2>
+      <p>This is a simplified three-rotor Enigma. Type a letter — watch the rotors turn (the rightmost one steps every press) and a different letter light up on the lampboard. Use the same settings to decrypt: Enigma is symmetric — if A becomes Q with these settings, then Q would become A.</p>
+
+      <h3>Set the rotors</h3>
+      <p style="font-size: 13px; color: var(--phosphor-dim);">These are the starting positions. Both you and your recipient must use the same starting position.</p>
+
+      <div class="rotor-rack">
+        <div class="rotor">
+          <div class="rotor-label">ROTOR I</div>
+          <button onclick="adjustRotor(0, 1)">▲</button>
+          <div class="rotor-window" id="rotor-0">A</div>
+          <button onclick="adjustRotor(0, -1)">▼</button>
+        </div>
+        <div class="rotor">
+          <div class="rotor-label">ROTOR II</div>
+          <button onclick="adjustRotor(1, 1)">▲</button>
+          <div class="rotor-window" id="rotor-1">A</div>
+          <button onclick="adjustRotor(1, -1)">▼</button>
+        </div>
+        <div class="rotor">
+          <div class="rotor-label">ROTOR III</div>
+          <button onclick="adjustRotor(2, 1)">▲</button>
+          <div class="rotor-window" id="rotor-2">A</div>
+          <button onclick="adjustRotor(2, -1)">▼</button>
+        </div>
+      </div>
+
+      <button id="enigma-reset-btn">↺ RESET ROTORS</button>
+
+      <h3>Type a message</h3>
+      <label for="enigma-input">INPUT (letters only)</label>
+      <textarea id="enigma-input" placeholder="Type a message... e.g. ATTACK AT DAWN"></textarea>
+
+      <button id="enigma-encrypt-btn" class="amber">PROCESS THROUGH ENIGMA →</button>
+
+      <label>LAMPBOARD</label>
+      <div class="lampboard" id="lampboard"></div>
+
+      <label>OUTPUT</label>
+      <div id="enigma-output" class="output"></div>
+
+      <div class="info-box" style="margin-top: 24px;">
+        <div class="info-label">SECRET HANDSHAKE</div>
+        Encrypt a short message, write down the starting rotor positions, then send the rotor positions and ciphertext to a friend. They reset the rotors to the same starting positions, paste in the ciphertext, and they should see your original message decoded.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>CRYPTONAUTS // MISSION 02 — ENIGMA MACHINE</footer>
+
+<script src="script.js"></script>
+<script>
+  initEnigmaPage();
+</script>
+</body>
+</html>

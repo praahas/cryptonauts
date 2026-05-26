@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caesar Cipher — CRYPTONAUTS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">CRYPTONAUTS<span class="blink"></span></a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="caesar.html" class="active">CAESAR</a>
+    <a href="enigma.html">ENIGMA</a>
+    <a href="morse.html">MORSE</a>
+    <a href="cicada.html">CICADA 3301</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <h1 class="page-title">CAESAR CIPHER</h1>
+  <p class="page-subtitle">MISSION 01 // SHIFT, SCRAMBLE, SHARE</p>
+
+  <div class="terminal">
+    <span class="terminal-label">BRIEFING.TXT</span>
+    <div class="terminal-body">
+      <h2>The story</h2>
+      <p>Over 2,000 years ago, a Roman general named <strong>Julius Caesar</strong> wanted to send orders to his armies without his enemies being able to read them if they were intercepted. He came up with a simple but clever idea: every letter in his message would be replaced by the letter three positions later in the alphabet.</p>
+      <p>So A became D, B became E, C became F, and so on. The word "ATTACK" became "DWWDFN". Anyone who didn't know the trick would just see nonsense. Anyone who did could simply shift the letters back by three to read the original.</p>
+
+      <h3>How it works</h3>
+      <p>The Caesar cipher is what cryptographers call a <strong>substitution cipher</strong> — every letter is swapped for another according to a fixed rule. The "rule" here is the number of positions to shift. We call this number the <strong>key</strong>.</p>
+      <p>If the key is 3, you shift every letter forward by 3. To decrypt, you shift back by 3. There are 25 possible keys (a shift of 0 or 26 doesn't change the message at all). That's actually a weakness — a code-breaker could simply try all 25 and see which one produces real words.</p>
+
+      <div class="info-box">
+        <div class="info-label">KEY IDEA</div>
+        A cipher's strength depends on how many possible keys there are. Caesar's 25 keys can be tried by hand in minutes. Modern ciphers have so many possible keys that even the fastest supercomputers can't try them all in billions of years.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">DECODER.EXE</span>
+    <div class="terminal-body">
+      <h2>Try it yourself</h2>
+      <p>Type a message, pick a shift value, and watch the wheel turn. The outer ring is your plaintext alphabet; the inner ring shows what each letter becomes.</p>
+
+      <div class="wheel-wrap">
+        <div class="wheel">
+          <svg viewBox="-160 -160 320 320" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer ring (fixed, plaintext) -->
+            <circle cx="0" cy="0" r="150" fill="none" stroke="var(--phosphor-dim)" stroke-width="1"/>
+            <circle cx="0" cy="0" r="120" fill="none" stroke="var(--phosphor-dim)" stroke-width="1"/>
+            <g id="outer-ring"></g>
+            <!-- Inner rotating ring (ciphertext) -->
+            <g class="inner" id="inner-ring">
+              <circle cx="0" cy="0" r="100" fill="none" stroke="var(--amber)" stroke-width="1"/>
+              <circle cx="0" cy="0" r="70" fill="none" stroke="var(--amber)" stroke-width="1"/>
+              <g id="inner-letters"></g>
+            </g>
+            <!-- Center marker -->
+            <circle cx="0" cy="0" r="14" fill="var(--bg-soft)" stroke="var(--amber)"/>
+            <text x="0" y="5" text-anchor="middle" font-family="VT323" font-size="20" fill="var(--amber)">★</text>
+            <!-- Top indicator arrow -->
+            <polygon points="0,-148 -8,-128 8,-128" fill="var(--phosphor)"/>
+          </svg>
+        </div>
+      </div>
+
+      <label for="caesar-shift">SHIFT KEY: <span id="shift-val" style="color: var(--amber); font-family: var(--display); font-size: 22px;">3</span></label>
+      <input type="range" id="caesar-shift" min="0" max="25" value="3">
+
+      <label for="caesar-input">PLAINTEXT</label>
+      <textarea id="caesar-input" placeholder="Type your secret message here...">HELLO WORLD</textarea>
+
+      <button id="caesar-encrypt-btn">ENCRYPT →</button>
+      <button id="caesar-decrypt-btn" class="amber">← DECRYPT</button>
+      <button id="caesar-clear-btn">CLEAR</button>
+
+      <label>CIPHERTEXT</label>
+      <div id="caesar-output" class="output"></div>
+
+      <div class="info-box" style="margin-top: 24px;">
+        <div class="info-label">CHALLENGE</div>
+        Can you decode this message with shift = 13?<br>
+        <span style="color: var(--amber); font-family: var(--display); font-size: 22px; letter-spacing: 2px;">PELCGBTENCUL VF SHA</span><br>
+        <small style="color: var(--phosphor-dim);">(Set the shift to 13 and paste this into the box, then click DECRYPT.)</small>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>CRYPTONAUTS // MISSION 01 — CAESAR CIPHER</footer>
+
+<script src="script.js"></script>
+<script>
+  initCaesarPage();
+</script>
+</body>
+</html>
