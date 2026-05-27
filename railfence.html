@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rail Fence Cipher — CRYPTONAUTS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">CRYPTONAUTS<span class="blink"></span></a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="caesar.html">CAESAR</a>
+    <a href="vigenere.html">VIGENÈRE</a>
+    <a href="railfence.html" class="active">RAIL FENCE</a>
+    <a href="enigma.html">ENIGMA</a>
+    <a href="morse.html">MORSE</a>
+    <a href="cicada.html">CICADA 3301</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <h1 class="page-title">RAIL FENCE CIPHER</h1>
+  <p class="page-subtitle">MISSION 03 // REARRANGE, DON'T REPLACE</p>
+
+  <div class="terminal">
+    <span class="terminal-label">BRIEFING.TXT</span>
+    <div class="terminal-body">
+      <h2>The story</h2>
+      <p>So far, every cipher we've looked at has <strong>substituted</strong> letters: A becomes D, B becomes E, etc. But there's a completely different approach: instead of replacing letters, <strong>rearrange them</strong>.</p>
+
+      <p>The Rail Fence cipher (also called the Zigzag cipher) is one of the oldest and simplest transposition ciphers. Here's how it works:</p>
+
+      <p>Imagine writing your message in a zigzag pattern across two (or three, or four) parallel "rails" like a fence. Let's say we want to encrypt "HELLO WORLD" with 2 rails:</p>
+
+      <div class="info-box" style="background: #0c0c08; border-left-color: var(--amber); margin: 20px 0; font-family: var(--display); letter-spacing: 2px; font-size: 14px;">
+        <div style="color: var(--phosphor); margin-bottom: 8px;">H   O   O   L</div>
+        <div style="color: var(--amber);">  E L   W R D</div>
+      </div>
+
+      <p>Now read off the rails in order: <strong>HOOLLELLWRD</strong>. That's the ciphertext.</p>
+
+      <p>With 3 rails, the pattern gets more interesting, creating a different zigzag. Each additional rail makes the pattern more complex.</p>
+
+      <h3>Why this matters</h3>
+      <p>Rail Fence teaches a huge concept: <strong>transposition ciphers don't change the letters, only their positions</strong>. This means frequency analysis (counting which letters appear most often) still works — the letter frequencies don't change. But it does protect against a casual observer: the message structure is scrambled.</p>
+
+      <p>Rail Fence itself is trivial to break if you know the number of rails, but it's the ancestor of much more sophisticated transposition ciphers, and the principle — rearrange instead of replace — is still used in modern cryptography.</p>
+
+      <div class="info-box">
+        <div class="info-label">KEY INSIGHT</div>
+        Modern ciphers often use <strong>both</strong> substitution and transposition. The more operations you stack, the harder it is to break. A cipher that substitutes AND then rearranges is much stronger than either one alone.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">CIPHER.EXE</span>
+    <div class="terminal-body">
+      <h2>Try it yourself</h2>
+      <p>Choose how many rails (2–6) and watch the visualization show how your message zigzags across them. Then read the rails in order to get the ciphertext.</p>
+
+      <label for="rf-rails">NUMBER OF RAILS: <span id="rf-rail-val" style="color: var(--amber); font-family: var(--display); font-size: 24px; margin-left: 8px;">2</span></label>
+      <input type="range" id="rf-rails" min="2" max="6" value="2">
+
+      <label for="rf-input">PLAINTEXT</label>
+      <textarea id="rf-input" placeholder="Type your message...">HELLOWORLD</textarea>
+
+      <button id="rf-encrypt-btn">ENCRYPT →</button>
+      <button id="rf-decrypt-btn" class="amber">← DECRYPT</button>
+      <button id="rf-clear-btn">CLEAR</button>
+
+      <label>RAIL FENCE VISUALIZATION</label>
+      <div id="rf-fence" style="background: #050805; border: 1px dashed var(--phosphor-dim); padding: 16px; margin: 12px 0; font-family: var(--display); font-size: 14px; letter-spacing: 2px; min-height: 100px; overflow-x: auto;"></div>
+
+      <label>CIPHERTEXT</label>
+      <div id="rf-output" class="output"></div>
+
+      <div class="info-box" style="margin-top: 24px;">
+        <div class="info-label">TRY THIS</div>
+        Use 2 rails to encrypt your name. Then use 3 rails on the same text and see how different the ciphertext becomes. More rails = less rearrangement. Can you guess why?
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">HOW_IT_WORKS.TXT</span>
+    <div class="terminal-body">
+      <h3>The algorithm</h3>
+      <p><strong>Encryption:</strong></p>
+      <ol style="margin-left: 24px; color: #aac8aa;">
+        <li>Write plaintext in a zigzag pattern across N rails</li>
+        <li>Read rails top to bottom, left to right</li>
+      </ol>
+
+      <p style="margin-top: 16px;"><strong>Decryption:</strong></p>
+      <ol style="margin-left: 24px; color: #aac8aa;">
+        <li>Figure out how many characters go in each rail (the zigzag lengths differ)</li>
+        <li>Fill the rails with ciphertext in order</li>
+        <li>Read off the zigzag pattern to recover plaintext</li>
+      </ol>
+
+      <p style="margin-top: 16px;">For N rails and a message of length L:</p>
+      <div style="margin-left: 24px; color: #aac8aa; font-family: var(--terminal-mono); font-size: 13px;">
+        <p>Period of zigzag = 2 * (N - 1)</p>
+        <p>Number of complete cycles = L / Period</p>
+        <p>Remaining characters fill the last partial cycle</p>
+      </div>
+
+      <p style="margin-top: 16px;">Example (2 rails, "HELLO"):</p>
+      <div style="margin-left: 24px; color: #aac8aa;">
+        <p>H   L   → Rail 0: HLO</p>
+        <p>  E O   → Rail 1: EL</p>
+        <p>Ciphertext: HLO + EL = HLOEL</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>CRYPTONAUTS // MISSION 03 — RAIL FENCE CIPHER</footer>
+
+<script src="script.js"></script>
+<script>
+  initRailFencePage();
+</script>
+</body>
+</html>

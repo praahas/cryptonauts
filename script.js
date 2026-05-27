@@ -122,6 +122,278 @@ function initCaesarPage() {
 }
 
 /* ─────────────────────────────────────────────────────────
+   VIGENÈRE CIPHER
+   ───────────────────────────────────────────────────────── */
+
+function cleanKeyword(key) {
+  return (key || '').toUpperCase().replace(/[^A-Z]/g, '') || 'A';
+}
+
+function vigenereProcess(text, key, decrypt = false) {
+  const cleanKey = cleanKeyword(key);
+  let result = '';
+  let keyIdx = 0;
+  for (const ch of text.toUpperCase()) {
+    const idx = ALPHABET.indexOf(ch);
+    if (idx >= 0) {
+      const shift = ALPHABET.indexOf(cleanKey[keyIdx % cleanKey.length]);
+      const newIdx = decrypt
+        ? (idx - shift + 26) % 26
+        : (idx + shift) % 26;
+      result += ALPHABET[newIdx];
+      keyIdx++;
+    } else {
+      // Non-letter characters pass through unchanged; do NOT advance key pointer.
+      result += ch;
+    }
+  }
+  return result;
+}
+
+function renderVigenereBreakdown(plaintext, key, decrypt = false) {
+  const grid = document.getElementById('vig-breakdown');
+  if (!grid) return;
+  grid.innerHTML = '';
+  const cleanKey = cleanKeyword(key);
+  const upper = plaintext.toUpperCase();
+  let keyIdx = 0;
+
+  for (const ch of upper) {
+    if (!/[A-Z]/.test(ch)) {
+      // Render a thin spacer to preserve word breaks
+      const sp = document.createElement('div');
+      sp.className = 'vig-col space';
+      grid.appendChild(sp);
+      continue;
+    }
+    const col = document.createElement('div');
+    col.className = 'vig-col';
+
+    const plainIdx = ALPHABET.indexOf(ch);
+    const keyChar = cleanKey[keyIdx % cleanKey.length];
+    const shift = ALPHABET.indexOf(keyChar);
+    const cipherIdx = decrypt
+      ? (plainIdx - shift + 26) % 26
+      : (plainIdx + shift) % 26;
+
+    col.innerHTML = `
+      <div class="vig-row-label">${decrypt ? 'cipher' : 'plain'}</div>
+      <div class="vig-cell vig-plain">${ch}</div>
+      <div class="vig-row-label">key</div>
+      <div class="vig-cell vig-key">${keyChar}</div>
+      <div class="vig-shift">${decrypt ? '−' : '+'}${shift}</div>
+      <div class="vig-row-label">${decrypt ? 'plain' : 'cipher'}</div>
+      <div class="vig-cell vig-cipher">${ALPHABET[cipherIdx]}</div>
+    `;
+    grid.appendChild(col);
+    keyIdx++;
+  }
+}
+
+function buildVigenereTableau() {
+  const tab = document.getElementById('vig-tableau');
+  if (!tab) return;
+  tab.innerHTML = '';
+  // Corner
+  const corner = document.createElement('div');
+  corner.className = 'cell header';
+  tab.appendChild(corner);
+  // Top header row (plaintext letters)
+  for (let c = 0; c < 26; c++) {
+    const h = document.createElement('div');
+    h.className = 'cell header';
+    h.dataset.col = c;
+    h.textContent = ALPHABET[c];
+    tab.appendChild(h);
+  }
+  // Body rows
+  for (let r = 0; r < 26; r++) {
+    // Row header
+    const rh = document.createElement('div');
+    rh.className = 'cell header';
+    rh.dataset.row = r;
+    rh.textContent = ALPHABET[r];
+    tab.appendChild(rh);
+    for (let c = 0; c < 26; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+      cell.textContent = ALPHABET[(r + c) % 26];
+      tab.appendChild(cell);
+    }
+  }
+  // Highlight row + col on hover
+  tab.addEventListener('mouseover', (e) => {
+    const t = e.target;
+    if (!t.classList.contains('cell')) return;
+    const r = t.dataset.row;
+    const c = t.dataset.col;
+    tab.querySelectorAll('.cell').forEach(el => {
+      el.classList.remove('col-hover', 'row-hover');
+      if (c !== undefined && el.dataset.col === c) el.classList.add('col-hover');
+      if (r !== undefined && el.dataset.row === r) el.classList.add('row-hover');
+    });
+  });
+  tab.addEventListener('mouseleave', () => {
+    tab.querySelectorAll('.cell').forEach(el => el.classList.remove('col-hover', 'row-hover'));
+  });
+}
+
+function initVigenerePage() {
+  buildVigenereTableau();
+  const inp = document.getElementById('vig-input');
+  const key = document.getElementById('vig-key');
+  const out = document.getElementById('vig-output');
+
+  document.getElementById('vig-encrypt-btn').addEventListener('click', () => {
+    out.textContent = vigenereProcess(inp.value, key.value, false);
+    renderVigenereBreakdown(inp.value, key.value, false);
+  });
+  document.getElementById('vig-decrypt-btn').addEventListener('click', () => {
+    out.textContent = vigenereProcess(inp.value, key.value, true);
+    renderVigenereBreakdown(inp.value, key.value, true);
+  });
+  document.getElementById('vig-clear-btn').addEventListener('click', () => {
+    inp.value = '';
+    out.textContent = '';
+    document.getElementById('vig-breakdown').innerHTML = '';
+  });
+
+  // Render initial breakdown so the page isn't empty
+  renderVigenereBreakdown(inp.value, key.value, false);
+}
+
+/* ─────────────────────────────────────────────────────────
+   RAIL FENCE CIPHER (transposition)
+   ───────────────────────────────────────────────────────── */
+
+// Compute which rail each character lands on for a given length and rail count.
+function railPattern(length, rails) {
+  if (rails < 2) return new Array(length).fill(0);
+  const pattern = [];
+  let rail = 0;
+  let direction = 1;
+  for (let i = 0; i < length; i++) {
+    pattern.push(rail);
+    if (rail === 0) direction = 1;
+    else if (rail === rails - 1) direction = -1;
+    rail += direction;
+  }
+  return pattern;
+}
+
+function railFenceEncrypt(text, rails) {
+  // Operate on letters-only for the cipher; preserve spaces/punctuation? For clarity
+  // and to match how Rail Fence is taught, we strip non-letters and uppercase.
+  const clean = text.toUpperCase().replace(/[^A-Z]/g, '');
+  if (rails < 2 || clean.length === 0) return clean;
+  const pattern = railPattern(clean.length, rails);
+  const buckets = Array.from({ length: rails }, () => []);
+  for (let i = 0; i < clean.length; i++) {
+    buckets[pattern[i]].push(clean[i]);
+  }
+  return buckets.map(b => b.join('')).join('');
+}
+
+function railFenceDecrypt(text, rails) {
+  const clean = text.toUpperCase().replace(/[^A-Z]/g, '');
+  if (rails < 2 || clean.length === 0) return clean;
+  const pattern = railPattern(clean.length, rails);
+  // Count how many letters land on each rail.
+  const counts = new Array(rails).fill(0);
+  for (const r of pattern) counts[r]++;
+  // Slice the ciphertext into per-rail strings in order.
+  const railStrings = [];
+  let pos = 0;
+  for (let r = 0; r < rails; r++) {
+    railStrings.push(clean.slice(pos, pos + counts[r]));
+    pos += counts[r];
+  }
+  // Walk through positions in zig-zag order, pulling letters off the relevant rail.
+  const railIdx = new Array(rails).fill(0);
+  let out = '';
+  for (let i = 0; i < clean.length; i++) {
+    const r = pattern[i];
+    out += railStrings[r][railIdx[r]++];
+  }
+  return out;
+}
+
+function renderRailFence(text, rails) {
+  const fence = document.getElementById('rf-fence');
+  if (!fence) return;
+  fence.innerHTML = '';
+  const clean = text.toUpperCase().replace(/[^A-Z]/g, '');
+  if (!clean) {
+    fence.innerHTML = '<div style="color: var(--phosphor-dim); font-style: italic; font-family: var(--terminal-mono);">› type a message to see the fence</div>';
+    return;
+  }
+  const pattern = railPattern(clean.length, rails);
+  // Build a matrix of rails × columns
+  for (let r = 0; r < rails; r++) {
+    const row = document.createElement('div');
+    row.className = 'rf-row';
+    const label = document.createElement('span');
+    label.className = 'rf-row-label';
+    label.textContent = `RAIL ${r + 1}`;
+    row.appendChild(label);
+    for (let c = 0; c < clean.length; c++) {
+      const cell = document.createElement('span');
+      if (pattern[c] === r) {
+        cell.className = 'rf-cell filled';
+        cell.textContent = clean[c];
+        // Stagger animation delay so it looks like writing
+        cell.style.animationDelay = `${c * 30}ms`;
+      } else {
+        cell.className = 'rf-cell dot';
+        cell.textContent = '·';
+      }
+      row.appendChild(cell);
+    }
+    fence.appendChild(row);
+  }
+}
+
+function initRailFencePage() {
+  const inp = document.getElementById('rf-input');
+  const rails = document.getElementById('rf-rails');
+  const railVal = document.getElementById('rf-rail-val');
+  const out = document.getElementById('rf-output');
+
+  const updateFence = () => {
+    railVal.textContent = rails.value;
+    renderRailFence(inp.value, parseInt(rails.value));
+  };
+
+  rails.addEventListener('input', updateFence);
+  inp.addEventListener('input', updateFence);
+
+  document.getElementById('rf-encrypt-btn').addEventListener('click', () => {
+    const r = parseInt(rails.value);
+    out.textContent = railFenceEncrypt(inp.value, r);
+    renderRailFence(inp.value, r);
+  });
+
+  document.getElementById('rf-decrypt-btn').addEventListener('click', () => {
+    const r = parseInt(rails.value);
+    const decoded = railFenceDecrypt(inp.value, r);
+    out.textContent = decoded;
+    // Re-render the fence showing the decoded plaintext zig-zagging
+    renderRailFence(decoded, r);
+  });
+
+  document.getElementById('rf-clear-btn').addEventListener('click', () => {
+    inp.value = '';
+    out.textContent = '';
+    renderRailFence('', parseInt(rails.value));
+  });
+
+  // Initial render
+  updateFence();
+}
+
+/* ─────────────────────────────────────────────────────────
    ENIGMA MACHINE (simplified 3-rotor)
    ───────────────────────────────────────────────────────── */
 
@@ -389,44 +661,73 @@ function normalize(s) {
 
 function checkPuzzle(step) {
   if (step === 1) {
-    // Caesar shift 7 of "THE ANSWER IS HIDDEN IN CICADAS"
-    // AOL HUZDLY PZ OPKKLU PU JPJHKHZ -> shift back by 7
-    const answer = caesarShift('AOL HUZDLY PZ OPKKLU PU JPJHKHZ', -7);
-    // -> "THE ANSWER IS HIDDEN IN CICADAS"
+    // Step 1: Caesar shift 5 of "HWFHP YT TUJS" -> "CRACK TO OPEN"
+    const answer = caesarShift('HWFHP YT TUJS', -5);
     const user = normalize(document.getElementById('puzzle-step-1').value);
-    const target = normalize(answer);
+    const target = normalize(answer); // "CRACK TO OPEN" -> "CRACKTOROPEN"
     const fb = document.getElementById('puzzle-1-feedback');
-    if (user === target || user === 'THEANSWERISHIDDENINCICADAS') {
+    if (user === target) {
       fb.innerHTML = `<span style="color: var(--phosphor);">✓ CORRECT — "${answer}"</span>`;
       document.getElementById('puzzle-box-2').style.display = 'block';
     } else {
-      fb.innerHTML = `<span style="color: var(--crimson);">✗ Not quite. Try shifting each letter back 7 places. Hint: A → T, O → H...</span>`;
+      fb.innerHTML = `<span style="color: var(--crimson);">✗ Not quite. Shift back by 5 places. H→C, W→R, F→A...</span>`;
     }
   }
   if (step === 2) {
-    // Morse: -... .... . / -.- . -.-- / .. ... / ... .. -..- - . . -..
-    // Wait — I wrote "THE KEY IS SIXTEEN" => let me check
-    // T=-,H=....,E=.   K=-.-,E=.,Y=-.--   I=..,S=...   S=...,I=..,X=-..-,T=-,E=.,E=.,N=-.
-    // Last word: SIXTEEN
+    // Step 2: Rail Fence 3 rails of "CTARPORPYYGH" -> "CRYPTOGRAPHY"
+    const answer = railFenceDecrypt('CTARPORPYYGH', 3);
     const user = normalize(document.getElementById('puzzle-step-2').value);
+    const target = normalize(answer); // "CRYPTOGRAPHY"
     const fb = document.getElementById('puzzle-2-feedback');
-    if (user === 'SIXTEEN' || user === '16') {
-      fb.innerHTML = `<span style="color: var(--phosphor);">✓ CORRECT — the message was "THE KEY IS SIXTEEN"</span>`;
+    if (user === target) {
+      fb.innerHTML = `<span style="color: var(--phosphor);">✓ CORRECT — "${answer}"</span>`;
       document.getElementById('puzzle-box-3').style.display = 'block';
     } else {
-      fb.innerHTML = `<span style="color: var(--crimson);">✗ Not yet. Decode the Morse: THE KEY IS ?????. The last word is what you want.</span>`;
+      fb.innerHTML = `<span style="color: var(--crimson);">✗ Close! Use 3 rails and read the zigzag pattern. Go to RAIL FENCE lesson if stuck.</span>`;
     }
   }
   if (step === 3) {
-    // 7 * 16 = 112
+    // Step 3: Vigenère with keyword "ENIGMA" of "WBTBUNK PQVTEV" -> "SOLVING CIPHER"
+    const answer = vigenereProcess('WBTBUNK PQVTEV', 'ENIGMA', true);
     const user = normalize(document.getElementById('puzzle-step-3').value);
+    const target = normalize(answer); // "SOLVING CIPHER" -> "SOLVINGCIPHER"
     const fb = document.getElementById('puzzle-3-feedback');
-    if (user === '112') {
-      fb.innerHTML = `<span style="color: var(--phosphor);">✓ CORRECT — 7 × 16 = 112</span>`;
+    if (user === target) {
+      fb.innerHTML = `<span style="color: var(--phosphor);">✓ CORRECT — "${answer}"</span>`;
+      document.getElementById('puzzle-box-4').style.display = 'block';
+    } else {
+      fb.innerHTML = `<span style="color: var(--crimson);">✗ Try using the VIGENÈRE lesson with keyword ENIGMA. The answer is _____ CIPHER.</span>`;
+    }
+  }
+  if (step === 4) {
+    // Step 4: Morse "- .... . / -.- . -.-- / .. ... / ... .. -..- - . . -.."
+    // Decodes to "THE KEY IS SIXTEEN" — user needs to type SIXTEEN
+    const answer = morseToText('- .... . / -.- . -.-- / .. ... / ... .. -..- - . . -..'); // -> "THE KEY IS SIXTEEN"
+    const user = normalize(document.getElementById('puzzle-step-4').value);
+    const target = normalize('SIXTEEN');
+    const fb = document.getElementById('puzzle-4-feedback');
+    if (user === target) {
+      fb.innerHTML = `<span style="color: var(--phosphor);">✓ CORRECT — the last word is "${target}"</span>`;
+      document.getElementById('puzzle-box-5').style.display = 'block';
+    } else {
+      fb.innerHTML = `<span style="color: var(--crimson);">✗ Decode the Morse. The full message is "THE KEY IS ??????". Type the last word.</span>`;
+    }
+  }
+  if (step === 5) {
+    // Step 5: Final calculation
+    // "CRACK" from step 1 = 5 letters
+    // "CRYPTOGRAPHY" from step 2 = 12 letters
+    // "SIXTEEN" from step 4 = 16
+    // 5 × 12 × 16 = 960
+    const expectedAnswer = 5 * 12 * 16;
+    const user = parseInt(document.getElementById('puzzle-step-5').value);
+    const fb = document.getElementById('puzzle-5-feedback');
+    if (user === expectedAnswer) {
+      fb.innerHTML = `<span style="color: var(--phosphor);">✓ CORRECT — 5 × 12 × 16 = ${expectedAnswer}</span>`;
       document.getElementById('puzzle-final').style.display = 'block';
       document.getElementById('puzzle-final').scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-      fb.innerHTML = `<span style="color: var(--crimson);">✗ Try again. 7 × 16 = ?</span>`;
+      fb.innerHTML = `<span style="color: var(--crimson);">✗ Try again. (5 from CRACK) × (12 from CRYPTOGRAPHY) × (16 from SIXTEEN) = ?</span>`;
     }
   }
 }
@@ -439,6 +740,8 @@ function initCicadaPage() {
 
 // Expose init functions globally so they can be called from each page
 window.initCaesarPage = initCaesarPage;
+window.initVigenerePage = initVigenerePage;
+window.initRailFencePage = initRailFencePage;
 window.initEnigmaPage = initEnigmaPage;
 window.initMorsePage = initMorsePage;
 window.initCicadaPage = initCicadaPage;

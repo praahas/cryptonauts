@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vigenère Cipher — CRYPTONAUTS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">CRYPTONAUTS<span class="blink"></span></a>
+  <div class="nav-links">
+    <a href="index.html">HOME</a>
+    <a href="caesar.html">CAESAR</a>
+    <a href="vigenere.html" class="active">VIGENÈRE</a>
+    <a href="railfence.html">RAIL FENCE</a>
+    <a href="enigma.html">ENIGMA</a>
+    <a href="morse.html">MORSE</a>
+    <a href="cicada.html">CICADA 3301</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <h1 class="page-title">VIGENÈRE CIPHER</h1>
+  <p class="page-subtitle">MISSION 02 // THE UNBREAKABLE CIPHER (FOR 300 YEARS)</p>
+
+  <div class="terminal">
+    <span class="terminal-label">BRIEFING.TXT</span>
+    <div class="terminal-body">
+      <h2>The story</h2>
+      <p>For three centuries, a cipher existed that people believed was impossible to break. It was called <strong><em>le chiffrement indéchiffrable</em></strong> — "the unbreakable cipher." Invented by French diplomat <strong>Blaise de Vigenère</strong> in the 1500s, it was used by governments, military forces, and spies all over the world.</p>
+
+      <p>The Caesar cipher had a fatal flaw: there are only 25 possible keys. A code-breaker could try them all in an afternoon. But what if the key itself was a word, not a number? What if the shift changed for every single letter, but in a pattern that repeated the keyword?</p>
+
+      <p>That's the Vigenère idea. To encrypt "ATTACK AT DAWN" with the keyword "KEY", you'd write the keyword over and over above the plaintext:</p>
+
+      <div class="info-box" style="background: #0c0c08; border-left-color: var(--amber); margin: 20px 0; font-family: var(--display); letter-spacing: 2px; font-size: 16px;">
+        <div style="color: var(--amber); margin-bottom: 10px;">KEY KEY KEY KEYKE</div>
+        <div style="color: var(--phosphor);">ATTACK AT DAWN</div>
+      </div>
+
+      <p>Now, instead of shifting every letter by 3 (like Caesar), each letter shifts by <em>the position of its corresponding key letter</em>. K is the 11th letter (shift 10), E is the 5th letter (shift 4), Y is the 25th letter (shift 24). So A + K(10) = K, T + E(4) = X, T + Y(24) = S, and so on.</p>
+
+      <p>The ciphertext is <strong>KXSGT GE TCTT</strong>.</p>
+
+      <p>To decrypt, the receiver uses the same keyword and subtracts instead of adding. Simple and elegant — but with one enormous advantage: if the keyword is long and random, there are <strong>billions and billions</strong> of possible keys, not just 25. Code-breakers would need more than a human lifetime to try them all.</p>
+
+      <h3>The breakthrough</h3>
+      <p>In the 1850s, Charles Babbage and Friedrich Kasiski independently discovered that Vigenère could be cracked after all — if you knew (or could guess) the length of the keyword, you could use frequency analysis on each shifted alphabet separately. But for 300 years, no one knew that. And if the key is truly random and kept secret, Vigenère is genuinely very strong — much harder to break than Caesar.</p>
+
+      <div class="info-box">
+        <div class="info-label">KEY INSIGHT</div>
+        A long, random key is the beginning of modern encryption. Your HTTPS connection to any website uses a random key thousands of bits long. The idea is the same: make the key so large and random that brute-force guessing is impossible.
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">CIPHER.EXE</span>
+    <div class="terminal-body">
+      <h2>Try it yourself</h2>
+      <p>Pick a keyword (any word or phrase), type a message, and watch how each letter shifts by a different amount depending on the corresponding key letter.</p>
+
+      <label for="vig-key">KEYWORD (letters only; spaces & punctuation ignored)</label>
+      <input type="text" id="vig-key" placeholder="e.g. SECRET, CRYPTOGRAPHY, BLAISE" value="KEY">
+
+      <label for="vig-input">PLAINTEXT</label>
+      <textarea id="vig-input" placeholder="Type your message...">ATTACK AT DAWN</textarea>
+
+      <button id="vig-encrypt-btn">ENCRYPT →</button>
+      <button id="vig-decrypt-btn" class="amber">← DECRYPT</button>
+      <button id="vig-clear-btn">CLEAR</button>
+
+      <label>CIPHERTEXT</label>
+      <div id="vig-output" class="output"></div>
+
+      <h3 style="margin-top: 24px;">Encryption breakdown</h3>
+      <p style="color: #aac8aa; font-size: 12px;">Each column below shows one letter: plaintext on top, key letter in the middle, and resulting ciphertext on the bottom.</p>
+      <div id="vig-breakdown" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 8px; margin-top: 12px;"></div>
+
+      <div class="info-box" style="margin-top: 24px;">
+        <div class="info-label">TRY THIS</div>
+        Try encrypting the same plaintext with different keywords and see how the ciphertext changes completely. Then try encrypting with a very long keyword vs. a short one. Notice how with a short keyword, patterns can emerge, but a long random keyword produces seemingly random output?
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <span class="terminal-label">VIGENÈRE_TABLEAU.TXT</span>
+    <div class="terminal-body">
+      <h3>The tableau (interactive)</h3>
+      <p style="color: #aac8aa; font-size: 13px;">The Vigenère tableau is a 26×26 grid. Find your plaintext letter in the top row, your key letter in the left column, and the cell where they meet is your ciphertext. Hover over the grid to highlight.</p>
+      <div id="vig-tableau" class="vig-tableau"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>CRYPTONAUTS // MISSION 02 — VIGENÈRE CIPHER</footer>
+
+<script src="script.js"></script>
+<script>
+  initVigenerePage();
+</script>
+</body>
+</html>

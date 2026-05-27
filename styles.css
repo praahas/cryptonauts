@@ -660,3 +660,283 @@ footer {
   60% { transform: translate(-1px, 1px); }
   80% { transform: translate(1px, -1px); }
 }
+
+/* ============ VIGENÈRE TABLEAU ============ */
+.vig-tableau {
+  display: grid;
+  grid-template-columns: repeat(27, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  padding: 8px;
+  margin: 16px 0;
+  max-width: 100%;
+  overflow-x: auto;
+  font-size: 11px;
+  font-family: var(--terminal-mono);
+}
+.vig-tableau .cell {
+  background: #050805;
+  color: var(--phosphor-dim);
+  padding: 4px;
+  text-align: center;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+}
+.vig-tableau .cell.header {
+  background: #0c0c08;
+  color: var(--amber);
+  font-weight: bold;
+}
+.vig-tableau .cell.col-hover {
+  background: var(--bg-soft);
+  color: var(--amber);
+  box-shadow: inset 0 0 8px var(--amber-glow);
+}
+.vig-tableau .cell.row-hover {
+  background: var(--bg-soft);
+  color: var(--phosphor);
+  box-shadow: inset 0 0 8px var(--phosphor-glow);
+}
+
+/* ============ VIGENÈRE BREAKDOWN ============ */
+.vig-col {
+  background: #0c0c08;
+  border: 1px solid var(--rule);
+  padding: 8px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  animation: slideUp 0.3s ease-out;
+}
+.vig-col.space {
+  background: transparent;
+  border: none;
+  padding: 0;
+  min-width: 4px;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.vig-row-label {
+  color: var(--phosphor-dim);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.vig-cell {
+  font-family: var(--display);
+  font-size: 18px;
+  padding: 4px 6px;
+  min-width: 28px;
+  text-align: center;
+}
+.vig-plain {
+  color: var(--phosphor);
+  border: 1px solid var(--phosphor-dim);
+}
+.vig-key {
+  color: var(--amber);
+  border: 1px solid var(--amber);
+}
+.vig-cipher {
+  color: var(--phosphor);
+  background: rgba(108, 242, 108, 0.1);
+  border: 1px solid var(--phosphor);
+  font-weight: bold;
+}
+.vig-shift {
+  color: var(--amber);
+  font-family: var(--display);
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+/* ============ RAIL FENCE VISUALIZATION ============ */
+.rf-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+.rf-row-label {
+  color: var(--amber);
+  font-size: 11px;
+  letter-spacing: 1px;
+  min-width: 70px;
+  text-align: right;
+}
+.rf-cell {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-family: var(--display);
+}
+.rf-cell.filled {
+  background: var(--amber);
+  color: var(--bg);
+  border: 1px solid var(--amber);
+  box-shadow: 0 0 8px var(--amber-glow);
+  animation: fillCell 0.3s ease-out;
+}
+@keyframes fillCell {
+  from { opacity: 0; scale: 0.6; }
+  to { opacity: 1; scale: 1; }
+}
+.rf-cell.dot {
+  color: var(--phosphor-dim);
+  opacity: 0.4;
+}
+
+/* ============ VIGENÈRE BREAKDOWN ============ */
+.vig-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 12px;
+  background: #050805;
+  border: 1px dashed var(--phosphor-dim);
+  padding: 14px;
+  min-height: 100px;
+}
+.vig-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 32px;
+  padding: 4px 2px;
+  border-radius: 3px;
+  background: rgba(108, 242, 108, 0.04);
+  border: 1px solid transparent;
+  animation: vigFadeIn 0.25s both;
+}
+@keyframes vigFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.vig-col.space {
+  background: transparent;
+  min-width: 12px;
+}
+.vig-row-label {
+  font-size: 9px;
+  color: var(--phosphor-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.vig-cell {
+  font-family: var(--display);
+  font-size: 22px;
+  padding: 0 4px;
+  line-height: 1.1;
+}
+.vig-plain   { color: var(--phosphor); }
+.vig-key     { color: var(--amber); }
+.vig-cipher  { color: #fff5cc; text-shadow: 0 0 6px var(--amber-glow); }
+.vig-shift   { font-family: var(--terminal-mono); font-size: 10px; color: var(--phosphor-dim); }
+
+/* ============ VIGENÈRE TABLEAU ============ */
+.vig-tableau {
+  display: grid;
+  grid-template-columns: 22px repeat(26, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: 12px;
+  font-family: var(--terminal-mono);
+  font-size: 11px;
+  overflow-x: auto;
+}
+.vig-tableau .cell {
+  background: #050805;
+  text-align: center;
+  padding: 3px 0;
+  color: var(--phosphor-dim);
+  user-select: none;
+  transition: background 0.1s, color 0.1s;
+}
+.vig-tableau .cell.header {
+  color: var(--amber);
+  font-weight: bold;
+  background: #0c100c;
+}
+.vig-tableau .cell:hover {
+  background: var(--amber);
+  color: var(--bg);
+}
+.vig-tableau .cell.col-hover {
+  background: rgba(255, 179, 71, 0.15);
+  color: var(--amber);
+}
+.vig-tableau .cell.row-hover {
+  background: rgba(255, 179, 71, 0.15);
+  color: var(--amber);
+}
+.vig-tableau .cell.col-hover.row-hover {
+  background: var(--amber);
+  color: var(--bg);
+}
+
+@media (max-width: 720px) {
+  .vig-tableau { font-size: 9px; grid-template-columns: 18px repeat(26, 1fr); }
+}
+
+/* ============ RAIL FENCE ============ */
+.rf-fence {
+  font-family: var(--terminal-mono);
+  background: #050805;
+  border: 1px dashed var(--phosphor-dim);
+  padding: 16px;
+  margin-top: 12px;
+  overflow-x: auto;
+  min-height: 80px;
+}
+.rf-row {
+  display: flex;
+  gap: 2px;
+  white-space: nowrap;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+.rf-row:last-child { margin-bottom: 0; }
+.rf-cell {
+  font-family: var(--display);
+  font-size: 22px;
+  min-width: 22px;
+  width: 22px;
+  text-align: center;
+  color: var(--phosphor-dim);
+  flex: 0 0 22px;
+}
+.rf-cell.filled {
+  color: var(--amber);
+  text-shadow: 0 0 6px var(--amber-glow);
+  animation: rfPop 0.25s;
+}
+.rf-cell.dot {
+  color: #2a3a2a;
+}
+@keyframes rfPop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.3); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.rf-row-label {
+  display: inline-block;
+  font-size: 10px;
+  color: var(--phosphor-dim);
+  letter-spacing: 1px;
+  margin-right: 8px;
+  align-self: center;
+  min-width: 40px;
+}

@@ -13,6 +13,8 @@
   <div class="nav-links">
     <a href="index.html">HOME</a>
     <a href="caesar.html">CAESAR</a>
+    <a href="vigenere.html">VIGENÈRE</a>
+    <a href="railfence.html">RAIL FENCE</a>
     <a href="enigma.html">ENIGMA</a>
     <a href="morse.html">MORSE</a>
     <a href="cicada.html" class="active">CICADA 3301</a>
@@ -22,7 +24,7 @@
 <div class="container">
 
   <h1 class="page-title glitch">CICADA 3301</h1>
-  <p class="page-subtitle">MISSION 04 // THE INTERNET'S GREATEST UNSOLVED MYSTERY</p>
+  <p class="page-subtitle">MISSION 06 // THE INTERNET'S GREATEST UNSOLVED MYSTERY</p>
 
   <div class="cicada-banner">
     <h2>"Hello. We are looking for highly intelligent individuals. To find them, we have devised a test."</h2>
@@ -43,6 +45,7 @@
         <li>Phone numbers in Texas that, when called, played coded messages</li>
         <li>Physical posters mysteriously appearing on telephone poles in 14 cities across the world — from Seattle to Warsaw to Seoul</li>
         <li>Onion-routed servers on the deep web</li>
+        <li><em>Keyword ciphers</em> (Vigenère) and <em>transposition methods</em> (like Rail Fence)</li>
       </ul>
       <p>The puzzles were signed only with a symbol: a cicada, and the number <strong>3301</strong>.</p>
     </div>
@@ -85,42 +88,69 @@
   <div class="terminal">
     <span class="terminal-label">SOLVE_THIS.TXT</span>
     <div class="terminal-body">
-      <h2>Try a Cicada-style puzzle</h2>
-      <p>One of the very first Cicada clues used a simple Caesar cipher. The original message was <strong>"Tiberius Claudius Caesar says lxxat that which redacts the verity of the assignment."</strong> — but with key letters shifted. Real Cicada puzzles used much harder math, but they always started with something a beginner could solve.</p>
+      <h2>Try a Cicada-style puzzle chain</h2>
+      <p>Real Cicada puzzles used all the techniques you've learned — and more. Here's a multi-step challenge that combines Caesar, Vigenère, Rail Fence, and Morse. Each step unlocks the next. Ready?</p>
 
-      <p>Here's a chain in the same spirit. Solve each step to unlock the next.</p>
-
+      <!-- STEP 1: CAESAR CIPHER -->
       <div class="puzzle-box">
-        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 1 OF 3 — CAESAR SHIFT 7</div>
-        <div class="clue">AOL HUZDLY PZ OPKKLU PU JPJHKHZ</div>
-        <p style="color: #aac8aa; font-size: 13px;">Decrypt this with a Caesar shift of 7. What does it say?</p>
-        <input type="text" id="puzzle-step-1" placeholder="Type your answer...">
+        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 1 OF 5 — CAESAR SHIFT 5</div>
+        <div class="clue">HWFHP YT TUJS</div>
+        <p style="color: #aac8aa; font-size: 13px;">Decrypt this Caesar cipher (shift = 5). What does it say? <br><small style="color: var(--phosphor-dim);">Hint: it's a command with two words and one more</small></p>
+        <input type="text" id="puzzle-step-1" placeholder="Type your answer (all caps)...">
         <button onclick="checkPuzzle(1)">SUBMIT</button>
         <div id="puzzle-1-feedback" style="margin-top: 10px;"></div>
       </div>
 
+      <!-- STEP 2: RAIL FENCE DECRYPTION -->
       <div class="puzzle-box" id="puzzle-box-2" style="display: none;">
-        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 2 OF 3 — MORSE CODE</div>
-        <div class="clue" style="font-family: var(--display); letter-spacing: 4px;">- .... . / -.- . -.-- / .. ... / ... .. -..- - . . -.</div>
-        <p style="color: #aac8aa; font-size: 13px;">Decode this Morse. The answer is a phrase — what's the last word?</p>
-        <input type="text" id="puzzle-step-2" placeholder="Type the last word...">
+        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 2 OF 5 — RAIL FENCE (3 RAILS)</div>
+        <div class="clue">CTARPORPYYGH</div>
+        <p style="color: #aac8aa; font-size: 13px;">Decrypt this using 3 rails. The answer is something you've seen before in one of the lessons.<br><small style="color: var(--phosphor-dim);">Hint: it's a type of cipher</small></p>
+        <input type="text" id="puzzle-step-2" placeholder="Type your answer...">
         <button onclick="checkPuzzle(2)">SUBMIT</button>
         <div id="puzzle-2-feedback" style="margin-top: 10px;"></div>
       </div>
 
+      <!-- STEP 3: VIGENÈRE DECRYPTION -->
       <div class="puzzle-box" id="puzzle-box-3" style="display: none;">
-        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 3 OF 3 — FINAL</div>
-        <p style="color: #aac8aa;">Multiply the Caesar shift from step 1 by the number that was the answer to step 2 (the last word, as a number).</p>
-        <input type="text" id="puzzle-step-3" placeholder="Type a number...">
+        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 3 OF 5 — VIGENÈRE (KEYWORD = ENIGMA)</div>
+        <div class="clue">WBTBUNK PQVTEV</div>
+        <p style="color: #aac8aa; font-size: 13px;">Decrypt using the keyword ENIGMA. The answer is a two-word phrase about what you're doing right now.<br><small style="color: var(--phosphor-dim);">Hint: _____ CIPHER</small></p>
+        <input type="text" id="puzzle-step-3" placeholder="Type your answer...">
         <button onclick="checkPuzzle(3)">SUBMIT</button>
         <div id="puzzle-3-feedback" style="margin-top: 10px;"></div>
       </div>
 
+      <!-- STEP 4: MORSE CODE -->
+      <div class="puzzle-box" id="puzzle-box-4" style="display: none;">
+        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 4 OF 5 — MORSE CODE</div>
+        <div class="clue" style="font-family: var(--display); letter-spacing: 4px;">- .... . / -.- . -.-- / .. ... / .... .. .... .. .... ..</div>
+        <p style="color: #aac8aa; font-size: 13px;">Decode this Morse. It's an answer you might already know. What's the last word?<br><small style="color: var(--phosphor-dim);">Hint: think about numbers</small></p>
+        <input type="text" id="puzzle-step-4" placeholder="Type the last word (all caps)...">
+        <button onclick="checkPuzzle(4)">SUBMIT</button>
+        <div id="puzzle-4-feedback" style="margin-top: 10px;"></div>
+      </div>
+
+      <!-- STEP 5: FINAL CALCULATION -->
+      <div class="puzzle-box" id="puzzle-box-5" style="display: none;">
+        <div style="color: var(--phosphor-dim); font-size: 13px; letter-spacing: 2px;">STEP 5 OF 5 — FINAL CALCULATION</div>
+        <p style="color: #aac8aa;">You've collected answers from all the major ciphers. Now combine them:</p>
+        <p style="color: #aac8aa; margin-top: 12px;">From Step 1, you got a 4-letter word (DECRYPT the Caesar to get a number: count its letters).<br>
+        From Step 2, CRYPTOGRAPHY has how many letters total?<br>
+        From Step 4, SIXTEEN as a number = 16.</p>
+        <p style="color: #aac8aa; margin-top: 12px;">Multiply all three: (Step1 length) × (CRYPTOGRAPHY length) × 16 = ?</p>
+        <input type="text" id="puzzle-step-5" placeholder="Type a number...">
+        <button onclick="checkPuzzle(5)">SUBMIT</button>
+        <div id="puzzle-5-feedback" style="margin-top: 10px;"></div>
+      </div>
+
+      <!-- FINAL SUCCESS -->
       <div class="puzzle-box" id="puzzle-final" style="display: none; border-color: var(--phosphor);">
         <div style="color: var(--phosphor); font-size: 13px; letter-spacing: 2px;">// TRANSMISSION COMPLETE //</div>
         <div class="clue" style="color: var(--phosphor);">WELCOME, CRYPTONAUT.<br>YOU FOUND THE END OF OUR TRAIL.</div>
-        <p style="color: #aac8aa;">You've just experienced — in miniature — what thousands of solvers around the world spent months doing. Real cryptography is exactly this: patience, pattern-recognition, collaboration, and curiosity.</p>
-        <p style="color: var(--amber);">3301</p>
+        <p style="color: #aac8aa;">You just solved a chain of cryptographic puzzles using FIVE different techniques: Caesar, Vigenère, Rail Fence, Morse, and mathematics. This is exactly what thousands of solvers around the world attempted to do in 2012 when Cicada 3301 posted its first challenge.</p>
+        <p style="color: #aac8aa; margin-top: 12px;">Real Cicada puzzles were much harder, and the chain was much longer. But you now understand the fundamental idea: <strong>cryptography is a series of techniques layered on top of each other, each one adding a new level of difficulty.</strong></p>
+        <p style="color: var(--amber); font-family: var(--display); font-size: 24px; text-align: center; margin-top: 32px;">⌐□_□ → ◓_◓</p>
       </div>
     </div>
   </div>
@@ -131,15 +161,15 @@
       <h2>What we learned</h2>
       <p>We may never know who Cicada 3301 was. But the puzzle taught the world a few important lessons:</p>
       <p>First, that cryptography is not just for governments and spies — it's a creative, playful, intellectual pursuit that brought thousands of strangers together across the internet.</p>
-      <p>Second, that the strongest cryptography in the world is open and well-understood. Cicada used techniques anyone could look up. The challenge wasn't that the math was secret — it was that you had to think clearly and carefully.</p>
+      <p>Second, that the strongest cryptography in the world is open and well-understood. Cicada used techniques anyone could look up. The challenge wasn't that the math was secret — it was that you had to think clearly and carefully, and persist when things got hard.</p>
       <p>Third — and this is the part that matters most for you — that mysteries this big and this beautiful are out there for the solving, and the only thing standing between you and the next one is the patience to learn how the puzzles work.</p>
-      <p style="color: var(--amber); font-family: var(--display); font-size: 24px; text-align: center; margin-top: 32px;">⌐□_□ → ◓_◓</p>
+      <p style="margin-top: 24px; color: var(--phosphor-dim); text-align: center; font-size: 13px;">THE HUNT IS ETERNAL. THE QUESTIONS ARE INFINITE. THE ANSWERS ARE WAITING.</p>
     </div>
   </div>
 
 </div>
 
-<footer>CRYPTONAUTS // MISSION 04 — CICADA 3301</footer>
+<footer>CRYPTONAUTS // MISSION 06 — CICADA 3301</footer>
 
 <script src="script.js"></script>
 <script>
